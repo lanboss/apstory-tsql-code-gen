@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -69,7 +70,7 @@ namespace Apstory.ApstoryTsqlCodeGen.DomainGenerator
         {
             try
             {
-                bool addSchema = (schema != "dbo");
+                bool addSchemaPath = (schema != "dbo");
 
                 var sb = new StringBuilder();
                 sb.Append(AddHeader(classNamespace, table.TABLE_NAME, schema));
@@ -86,12 +87,12 @@ namespace Apstory.ApstoryTsqlCodeGen.DomainGenerator
                 LogOutputLine();
                 LogOutput(sb.ToString());
                 LogOutputLine();
-                string fileName = table.TABLE_NAME + "Service" + (addSchema ? "." + schema.ToUpper() : string.Empty) + ".Gen.cs";
+                string fileName = table.TABLE_NAME + "Service" + (addSchemaPath ? "." + schema.ToUpper() : string.Empty) + ".Gen.cs";
                 string filePath;
                 if (_GenPath.Length > 0)
-                    filePath = path + (addSchema ? schema.ToUpper() + @"/" : string.Empty) + _GenPath.Replace(".", "") + @"/" + fileName;
+                    filePath = Path.Join( path, (addSchemaPath ? schema.ToUpper() : string.Empty), _GenPath.Replace(".", ""), fileName);
                 else
-                    filePath = path + (addSchema ? schema.ToUpper() + @"/" : string.Empty) + fileName;
+                    filePath = Path.Join(path, (addSchemaPath ? schema.ToUpper() : string.Empty), fileName);
                 Shared.Utils.GeneratorUtils.WriteToFile(filePath, sb.ToString());
             }
             catch (Exception ex)
@@ -104,7 +105,7 @@ namespace Apstory.ApstoryTsqlCodeGen.DomainGenerator
         {
             try
             {
-                bool addSchema = (schema != "dbo");
+                bool addSchemaPath = (schema != "dbo");
 
                 var sb = new StringBuilder();
                 sb.Append(AddHeaderIndex(classNamespace, tableWithIndex.TABLE_NAME, schema));
@@ -113,12 +114,14 @@ namespace Apstory.ApstoryTsqlCodeGen.DomainGenerator
                 LogOutputLine();
                 LogOutput(sb.ToString());
                 LogOutputLine();
-                string fileName = tableWithIndex.TABLE_NAME + "Service" + (addSchema ? "." + schema.ToUpper() : string.Empty) + ".Index.Gen.cs";
+                string fileName = tableWithIndex.TABLE_NAME + "Service" + (addSchemaPath ? "." + schema.ToUpper() : string.Empty) + ".Index.Gen.cs";
                 string filePath;
+                
                 if (_GenPath.Length > 0)
-                    filePath = path + (addSchema ? schema.ToUpper() + @"/" : string.Empty) + _GenPath.Replace(".", "") + @"/" + fileName;
+                    filePath = Path.Join( path, (addSchemaPath ? schema.ToUpper() : string.Empty), _GenPath.Replace(".", ""), fileName);
                 else
-                    filePath = path + (addSchema ? schema.ToUpper() + @"/" : string.Empty) + fileName;
+                    filePath = Path.Join(path, (addSchemaPath ? schema.ToUpper() : string.Empty), fileName);
+                
                 Shared.Utils.GeneratorUtils.WriteToFile(filePath, sb.ToString());
             }
             catch (Exception ex)

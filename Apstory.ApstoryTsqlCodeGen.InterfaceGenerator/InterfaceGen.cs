@@ -2,6 +2,7 @@
 using Apstory.ApstoryTsqlCodeGen.Shared.Service;
 using Apstory.ApstoryTsqlCodeGen.Shared.Models;
 using System;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -68,7 +69,7 @@ namespace Apstory.ApstoryTsqlCodeGen.InterfaceGenerator
         {
             try
             {
-                bool addSchema = (schema != "dbo");
+                bool addSchemaPath = (schema != "dbo");
 
                 var sb = new StringBuilder();
                 sb.Append(AddInterfaceHeader(classNamespace, table.TABLE_NAME, type, schema));
@@ -85,12 +86,13 @@ namespace Apstory.ApstoryTsqlCodeGen.InterfaceGenerator
                 LogOutputLine();
                 LogOutput(sb.ToString());
                 LogOutputLine();
-                string fileName = "I" + table.TABLE_NAME + type + (addSchema ? "." + schema.ToUpper() : "") + ".Gen.cs";
+                string fileName = "I" + table.TABLE_NAME + type + (addSchemaPath ? "." + schema.ToUpper() : "") + ".Gen.cs";
                 string filePath;
+                
                 if (_GenPath.Length > 0)
-                    filePath = path + (addSchema ? schema.ToUpper() + @"/" : string.Empty) + _GenPath.Replace(".", "") + "//" + fileName;
+                    filePath = Path.Join( path, (addSchemaPath ? schema.ToUpper() : string.Empty), _GenPath.Replace(".", ""), fileName);
                 else
-                    filePath = path + (addSchema ? schema.ToUpper() + @"/" : string.Empty) + fileName;
+                    filePath = Path.Join(path, (addSchemaPath ? schema.ToUpper() : string.Empty), fileName);
 
                 Shared.Utils.GeneratorUtils.WriteToFile(filePath, sb.ToString());
             }
@@ -105,7 +107,7 @@ namespace Apstory.ApstoryTsqlCodeGen.InterfaceGenerator
         {
             try
             {
-                bool addSchema = (schema != "dbo");
+                bool addSchemaPath = (schema != "dbo");
 
                 var sb = new StringBuilder();
                 sb.Append(AddInterfaceHeader(classNamespace, tableWithIndex.TABLE_NAME, type, schema));
@@ -114,12 +116,12 @@ namespace Apstory.ApstoryTsqlCodeGen.InterfaceGenerator
                 LogOutputLine();
                 LogOutput(sb.ToString());
                 LogOutputLine();
-                string fileName = "I" + tableWithIndex.TABLE_NAME + type + (addSchema ? "." + schema.ToUpper() : "") + ".Index.Gen.cs";
+                string fileName = "I" + tableWithIndex.TABLE_NAME + type + (addSchemaPath ? "." + schema.ToUpper() : "") + ".Index.Gen.cs";
                 string filePath;
                 if (_GenPath.Length > 0)
-                    filePath = path + (addSchema ? schema.ToUpper() + @"/" : string.Empty) + _GenPath.Replace(".", "") + @"/" + fileName;
+                    filePath = Path.Join( path, (addSchemaPath ? schema.ToUpper() : string.Empty), _GenPath.Replace(".", ""), fileName);
                 else
-                    filePath = path + (addSchema ? schema.ToUpper() + @"/" : string.Empty) + fileName;
+                    filePath = Path.Join(path, (addSchemaPath ? schema.ToUpper() : string.Empty), fileName);
 
                 Shared.Utils.GeneratorUtils.WriteToFile(filePath, sb.ToString());
             }
