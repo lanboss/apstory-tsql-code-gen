@@ -7,6 +7,7 @@ using Apstory.ApstoryTsqlCodeGen.Shared.Utils;
 using Microsoft.Extensions.CommandLineUtils;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Apstory.Common.Tsql.Main
@@ -16,6 +17,7 @@ namespace Apstory.Common.Tsql.Main
 
         static void Main(string[] args)
         {
+
             CommandLineApplication commandLineApplication = new CommandLineApplication(throwOnUnexpectedArg: false);
 
             CommandOption classNamespace = commandLineApplication.Option(
@@ -99,35 +101,35 @@ namespace Apstory.Common.Tsql.Main
                 GeneratorUtils.GenPathModelString(genPathList, genPathNamespaceList, "domain", schema),
                 GeneratorUtils.GenPathNamespaceString(genPathNamespaceList, "domain"),
                 true);
-            var domainTask = domainGen.Run($"Domain/{classNamespace}.Domain/", classNamespace, schema, includeForeignKeys);
+            var domainTask = domainGen.Run(Path.Join("Domain", $"{classNamespace}.Domain"), classNamespace, schema, includeForeignKeys);
 
             var modelGen = new ModelGen(tablesRepository,
                 GeneratorUtils.GenPathString(genPathList, "model"),
                 GeneratorUtils.GenPathModelString(genPathList, genPathNamespaceList, "model", schema),
                 GeneratorUtils.GenPathNamespaceString(genPathNamespaceList, "model"),
                 true);
-            var modelTask = modelGen.Run($"Model/{classNamespace}.Model/", classNamespace, schema, convertLongsToString, includeForeignKeys);
+            var modelTask = modelGen.Run(Path.Join("Model", $"{classNamespace}.Model"), classNamespace, schema, convertLongsToString, includeForeignKeys);
 
             var dapperGen = new DapperGen(tablesRepository,
                 GeneratorUtils.GenPathString(genPathList, "dalDapper"),
                 GeneratorUtils.GenPathModelString(genPathList, genPathNamespaceList, "dalDapper", schema),
                 GeneratorUtils.GenPathNamespaceString(genPathNamespaceList, "dalDapper"),
                 true);
-            var dapperTask = dapperGen.Run($"Dal/{classNamespace}.Dal.Dapper/", classNamespace, schema);
+            var dapperTask = dapperGen.Run(Path.Join("Dal", $"{classNamespace}.Dal.Dapper"), classNamespace, schema);
 
             var interfaceDomainGen = new InterfaceGen(tablesRepository,
                 GeneratorUtils.GenPathString(genPathList, "interfaceDomain"),
                 GeneratorUtils.GenPathModelString(genPathList, genPathNamespaceList, "interfaceDomain", schema),
                 GeneratorUtils.GenPathNamespaceString(genPathNamespaceList, "interfaceDomain"),
                 true);
-            var interfaceDomainTask = interfaceDomainGen.Run($"Domain/{classNamespace}.Domain.Interface/", "Service", classNamespace, schema, includeForeignKeys);
+            var interfaceDomainTask = interfaceDomainGen.Run(Path.Join("Domain", $"{classNamespace}.Domain.Interface"), "Service", classNamespace, schema, includeForeignKeys);
 
             var interfaceDalGen = new InterfaceGen(tablesRepository,
                 GeneratorUtils.GenPathString(genPathList, "interfaceDal"),
                 GeneratorUtils.GenPathModelString(genPathList, genPathNamespaceList, "interfaceDal", schema),
                 GeneratorUtils.GenPathNamespaceString(genPathNamespaceList, "interfaceDal"),
                 true);
-            var interfaceDalTask = interfaceDalGen.Run($"Dal/{classNamespace}.Dal.Interface/", "Repository", classNamespace, schema, false);
+            var interfaceDalTask = interfaceDalGen.Run(Path.Join("Dal", $"{classNamespace}.Dal.Interface"), "Repository", classNamespace, schema, false);
             Task.WaitAll(domainTask, dapperTask, interfaceDalTask, interfaceDomainTask, interfaceDalTask, modelTask);
 
             sw.Stop();

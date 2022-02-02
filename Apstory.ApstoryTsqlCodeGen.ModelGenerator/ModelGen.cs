@@ -2,6 +2,7 @@
 using Apstory.ApstoryTsqlCodeGen.Shared.Service;
 using Apstory.ApstoryTsqlCodeGen.Shared.Models;
 using System;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -70,10 +71,10 @@ namespace Apstory.ApstoryTsqlCodeGen.ModelGenerator
                 string filePath;
 
                 if (_GenPath.Length > 0)
-                    filePath = path + (addSchemaPath ? schema.ToUpper() + @"\" : string.Empty) + _GenPath.Replace(".", "") + "\\" + fileName;
+                    filePath = Path.Join( path, (addSchemaPath ? schema.ToUpper() : string.Empty), _GenPath.Replace(".", ""), fileName);
                 else
-                    filePath = path + (addSchemaPath ? schema.ToUpper() + @"\" : string.Empty) + fileName;
-
+                    filePath = Path.Join(path, (addSchemaPath ? schema.ToUpper() : string.Empty), fileName);
+                
                 Shared.Utils.GeneratorUtils.WriteToFile(filePath, sb.ToString());
             }
             catch (Exception ex)

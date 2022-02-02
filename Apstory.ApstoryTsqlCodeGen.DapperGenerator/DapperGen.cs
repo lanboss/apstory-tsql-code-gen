@@ -3,6 +3,7 @@ using Apstory.ApstoryTsqlCodeGen.Shared.Service;
 using Apstory.ApstoryTsqlCodeGen.Shared.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -74,10 +75,11 @@ namespace Apstory.ApstoryTsqlCodeGen.DapperGenerator
                 LogOutputLine();
                 string fileName = table.TABLE_NAME + "Repository" + (addSchemaPath ? "." + schema.ToUpper() : string.Empty) + ".Gen.cs";
                 string filePath;
+                
                 if (_GenPath.Length > 0)
-                    filePath = path + (addSchemaPath ? schema.ToUpper() + @"/" : string.Empty) + _GenPath.Replace(".", "") + @"/" + fileName;
+                    filePath = Path.Join( path, (addSchemaPath ? schema.ToUpper() : string.Empty), _GenPath.Replace(".", ""), fileName);
                 else
-                    filePath = path + (addSchemaPath ? schema.ToUpper() + @"/" : string.Empty) + fileName;
+                    filePath = Path.Join(path, (addSchemaPath ? schema.ToUpper() : string.Empty), fileName);
 
                 Shared.Utils.GeneratorUtils.WriteToFile(filePath, sb.ToString());
             }
