@@ -5,7 +5,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <Version>3.1.0</Version>
+    <Version>6.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
