@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Apstory.ApstoryTsqlCodeGen.Shared.Interfaces;
 using Apstory.ApstoryTsqlCodeGen.Shared.Service;
 using Apstory.ApstoryTsqlCodeGen.Shared.Models;
+using System.IO;
 
 namespace Apstory.ApstoryTsqlCodeGen.DomainGenerator
 {
@@ -41,9 +42,9 @@ namespace Apstory.ApstoryTsqlCodeGen.DomainGenerator
                 string fileName = table.TABLE_NAME + "Service" + (addSchema ? "." + schema.ToUpper() : string.Empty) + ".Foreign.Gen.cs";
                 string filePath;
                 if (_GenPath.Length > 0)
-                    filePath = path + (addSchema ? schema.ToUpper() + @"/" : string.Empty) + _GenPath.Replace(".", "") + @"/" + fileName;
+                    filePath = Path.Join(path, (addSchema ? schema.ToUpper() : string.Empty), _GenPath.Replace(".", ""), fileName);
                 else
-                    filePath = path + (addSchema ? schema.ToUpper() + @"/" : string.Empty) + fileName;
+                    filePath = Path.Join(path, (addSchema ? schema.ToUpper() : string.Empty), fileName);
                 Shared.Utils.GeneratorUtils.WriteToFile(filePath, sb.ToString());
             }
             catch (Exception ex)
@@ -184,9 +185,9 @@ namespace Apstory.ApstoryTsqlCodeGen.DomainGenerator
                 string fileName = tableWithIndex.TABLE_NAME + "Service" + (addSchema ? "." + schema.ToUpper() : string.Empty) + ".ForeignIndex.Gen.cs";
                 string filePath;
                 if (_GenPath.Length > 0)
-                    filePath = path + (addSchema ? schema.ToUpper() + @"/" : string.Empty) + _GenPath.Replace(".", "") + @"/" + fileName;
+                    filePath = Path.Join(path, (addSchema ? schema.ToUpper() : string.Empty), _GenPath.Replace(".", ""), fileName);
                 else
-                    filePath = path + (addSchema ? schema.ToUpper() + @"/" : string.Empty) + fileName;
+                    filePath = Path.Join(path, (addSchema ? schema.ToUpper() : string.Empty), fileName);
                 Shared.Utils.GeneratorUtils.WriteToFile(filePath, sb.ToString());
             }
             catch (Exception ex)

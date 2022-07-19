@@ -105,9 +105,9 @@ namespace Apstory.ApstoryTsqlCodeGen.DapperGenerator
                 string fileName = table.TABLE_NAME + "Repository.Index.Gen.cs";
                 string filePath;
                 if (_GenPath.Length > 0)
-                    filePath = path + (addSchemaPath ? schema.ToUpper() + @"/" : string.Empty) + _GenPath.Replace(".", "") + @"/" + fileName;
+                    filePath = Path.Join(path, (addSchemaPath ? schema.ToUpper() : string.Empty), _GenPath.Replace(".", ""), fileName);
                 else
-                    filePath = path + (addSchemaPath ? schema.ToUpper() + @"/" : string.Empty) + fileName;
+                    filePath = Path.Join(path, (addSchemaPath ? schema.ToUpper() : string.Empty), fileName);
 
                 Shared.Utils.GeneratorUtils.WriteToFile(filePath, sb.ToString());
             }

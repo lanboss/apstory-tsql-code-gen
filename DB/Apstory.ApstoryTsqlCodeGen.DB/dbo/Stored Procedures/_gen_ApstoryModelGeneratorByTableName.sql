@@ -155,8 +155,8 @@ BEGIN
 			'' NullableSign
 		from sys.columns col
 		inner join sys.types typ on	col.system_type_id = typ.system_type_id AND col.user_type_id = typ.user_type_id
-		LEFT JOIN sys.foreign_key_columns fkc ON fkc.parent_object_id = col.object_id AND fkc.parent_column_id = col.column_id
-		LEFT JOIN sys.tables tab ON tab.object_id = fkc.referenced_object_id
+		INNER JOIN sys.foreign_key_columns fkc ON fkc.parent_object_id = col.object_id AND fkc.parent_column_id = col.column_id
+		INNER JOIN sys.tables tab ON tab.object_id = fkc.referenced_object_id
 		where col.object_id = object_id(@Schema + '.' + @TableName) 
 		AND column_id <> 1 AND col.name like '%Id' AND typ.name = 'tinyint'
 		UNION
@@ -167,8 +167,8 @@ BEGIN
 			'' NullableSign
 		from sys.columns col
 		inner join sys.types typ on 		col.system_type_id = typ.system_type_id AND col.user_type_id = typ.user_type_id
-		LEFT JOIN sys.foreign_key_columns fkc ON fkc.parent_object_id = col.object_id AND fkc.parent_column_id = col.column_id
-		LEFT JOIN sys.tables tab ON tab.object_id = fkc.referenced_object_id
+		INNER JOIN sys.foreign_key_columns fkc ON fkc.parent_object_id = col.object_id AND fkc.parent_column_id = col.column_id
+		INNER JOIN sys.tables tab ON tab.object_id = fkc.referenced_object_id
 		where col.object_id = object_id(@Schema + '.' + @TableName) 
 		AND column_id <> 1 AND col.name like '%Id' AND typ.name <> 'tinyint' AND typ.name NOT IN ('text', 'varchar', 'nvarchar', 'char', 'nchar', 'ntext')
 	) t

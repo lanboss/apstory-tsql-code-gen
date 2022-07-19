@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace Apstory.ApstoryTsqlCodeGen.InterfaceGenerator
 {
@@ -37,9 +38,9 @@ namespace Apstory.ApstoryTsqlCodeGen.InterfaceGenerator
                 string fileName = "I" + table.TABLE_NAME + type + (addSchema ? "." + schema.ToUpper() : "") + ".Foreign.Gen.cs";
                 string filePath;
                 if (_GenPath.Length > 0)
-                    filePath = path + (addSchema ? schema.ToUpper() + @"/" : string.Empty) + _GenPath.Replace(".", "") + "//" + fileName;
+                    filePath = Path.Join(path, (addSchema ? schema.ToUpper() : string.Empty), _GenPath.Replace(".", ""), fileName);
                 else
-                    filePath = path + (addSchema ? schema.ToUpper() + @"/" : string.Empty) + fileName;
+                    filePath = Path.Join(path, (addSchema ? schema.ToUpper() : string.Empty), fileName);
 
                 Shared.Utils.GeneratorUtils.WriteToFile(filePath, sb.ToString());
             }
@@ -72,9 +73,9 @@ namespace Apstory.ApstoryTsqlCodeGen.InterfaceGenerator
                 string fileName = "I" + tableWithIndex.TABLE_NAME + type + (addSchema ? "." + schema.ToUpper() : "") + ".ForeignIndex.Gen.cs";
                 string filePath;
                 if (_GenPath.Length > 0)
-                    filePath = path + (addSchema ? schema.ToUpper() + @"/" : string.Empty) + _GenPath.Replace(".", "") + @"/" + fileName;
+                    filePath = Path.Join(path, (addSchema ? schema.ToUpper() : string.Empty), _GenPath.Replace(".", ""), fileName);
                 else
-                    filePath = path + (addSchema ? schema.ToUpper() + @"/" : string.Empty) + fileName;
+                    filePath = Path.Join(path, (addSchema ? schema.ToUpper() : string.Empty), fileName);
 
                 Shared.Utils.GeneratorUtils.WriteToFile(filePath, sb.ToString());
             }
