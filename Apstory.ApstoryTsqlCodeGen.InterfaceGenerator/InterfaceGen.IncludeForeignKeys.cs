@@ -17,8 +17,8 @@ namespace Apstory.ApstoryTsqlCodeGen.InterfaceGenerator
             {
                 bool addSchema = (schema != "dbo");
 
-                var spParams = await _TableRepository.GetTableColumnsByTableName(table.TABLE_NAME, schema);
-                var foreignParams = spParams.Where(s => s.ColumnId > 1 && s.ColumnName.EndsWith("Id")).ToList();
+                var spTableColParams = await _TableRepository.GetTableColumnsByTableName(table.TABLE_NAME, schema);
+                var foreignParams = spTableColParams.Where(s => !string.IsNullOrWhiteSpace(s.ForeignTable)).ToList();
 
                 if (!foreignParams.Any())
                     return;
@@ -58,7 +58,7 @@ namespace Apstory.ApstoryTsqlCodeGen.InterfaceGenerator
                 bool addSchema = (schema != "dbo");
 
                 var spParams = await _TableRepository.GetTableColumnsByTableName(tableWithIndex.TABLE_NAME, schema);
-                var foreignParams = spParams.Where(s => s.ColumnId > 1 && s.ColumnName.EndsWith("Id")).ToList();
+                var foreignParams = spParams.Where(s => !string.IsNullOrWhiteSpace(s.ForeignTable)).ToList();
 
                 if (!foreignParams.Any())
                     return;
@@ -128,7 +128,7 @@ namespace Apstory.ApstoryTsqlCodeGen.InterfaceGenerator
                 sb.Append($"{_Tab}{_Tab}Task<List<{classNamespace}.Model.{_ModelGenPath}{table.TABLE_NAME}>> Get{table.TABLE_NAME}By{table.TABLE_NAME}IdsIncludeForeignKeys(");
                 foreach (var item in spParams)
                 {
-                    sb.Append(AddInterfaceMethodNullableAndNormalParams(item.ColumnType, Shared.Utils.GeneratorUtils.CamelCase(item.ParameterName.Remove(0, 1))));
+                    sb.Append(AddInterfaceMethodNullableAndNormalParams(item.ColumnType, Shared.Utils.GeneratorUtils.CamelCase(item.ParameterName.Remove(0,1))));
                 }
                 sb.Remove(sb.Length - 2, 2);
                 sb.Append(");" + _NewLine);
