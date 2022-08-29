@@ -43,7 +43,7 @@ namespace Apstory.ApstoryTsqlCodeGen.Shared.Service
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(errorMessage);
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.ResetColor();
         }
     }
 }

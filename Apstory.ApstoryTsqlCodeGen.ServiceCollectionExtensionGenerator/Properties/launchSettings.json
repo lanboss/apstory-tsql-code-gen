@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "Apstory.ApstoryTsqlCodeGen.ServiceCollectionExtensionGenerator": {
+      "commandName": "Project"
+    }
+  }
+}

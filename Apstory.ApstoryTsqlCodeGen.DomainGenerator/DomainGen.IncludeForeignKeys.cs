@@ -116,7 +116,6 @@ namespace Apstory.ApstoryTsqlCodeGen.DomainGenerator
             }
         }
 
-
         private StringBuilder AddHeaderIncludeForeignKeys(string classNamespace, string tableName, string schema, List<SqlTableColumn> foreignParams)
         {
             bool addSchema = (schema != "dbo");
