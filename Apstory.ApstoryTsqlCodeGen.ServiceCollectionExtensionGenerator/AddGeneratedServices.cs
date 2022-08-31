@@ -35,7 +35,7 @@ internal class AddGeneratedServices
         stringBuilder.AppendLine();
         stringBuilder.AppendLine("namespace Microsoft.Extensions.DependencyInjection;");
         stringBuilder.AppendLine();
-        stringBuilder.AppendLine("public static class AddGeneratedServicesServiceCollectionExtension");
+        stringBuilder.AppendLine("public static class AddGeneratedServicesServiceCollectionExtensions");
         stringBuilder.AppendLine("{");
         stringBuilder.AppendLine("    public static IServiceCollection AddGeneratedServices(this IServiceCollection services)");
         stringBuilder.AppendLine("    {");

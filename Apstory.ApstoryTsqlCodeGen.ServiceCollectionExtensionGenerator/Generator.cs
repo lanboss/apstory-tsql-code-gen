@@ -22,8 +22,8 @@ internal class Generator
         var services = AddGeneratedServices.Generate(_configuration.TopLevelNamespace, tables.Select(i => i.TABLE_NAME));
 
         var ioTasks = new[] {
-            File.WriteAllTextAsync(Path.Combine(_configuration.OutputPath, "AddGeneratedRepositories.cs"), repos, System.Text.Encoding.UTF8),
-            File.WriteAllTextAsync(Path.Combine(_configuration.OutputPath, "AddGeneratedServices.cs"), services, System.Text.Encoding.UTF8)
+            File.WriteAllTextAsync(Path.Combine(_configuration.OutputPath, "AddGeneratedRepositoriesServiceCollectionExtensions.cs"), repos, System.Text.Encoding.UTF8),
+            File.WriteAllTextAsync(Path.Combine(_configuration.OutputPath, "AddGeneratedServicesServiceCollectionExtensions.cs"), services, System.Text.Encoding.UTF8)
         };
 
         await Task.WhenAll(ioTasks);
