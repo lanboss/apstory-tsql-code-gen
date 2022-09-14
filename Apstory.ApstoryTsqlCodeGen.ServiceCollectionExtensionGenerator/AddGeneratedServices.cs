@@ -5,7 +5,7 @@ namespace Apstory.ApstoryTsqlCodeGen.ServiceCollectionExtensionGenerator;
 
 internal class AddGeneratedServices
 {
-    public static string Generate(string topLevelNamespace, IEnumerable<string> tableNames)
+    public static string Generate(string topLevelNamespace, string generatedNamespace, IEnumerable<string> tableNames)
     {
         /*
         using xxxx;
@@ -33,9 +33,9 @@ internal class AddGeneratedServices
         stringBuilder.AppendLine($"using {topLevelNamespace}.Domain.Interface;");
         stringBuilder.AppendLine($"using {topLevelNamespace}.Domain;");
         stringBuilder.AppendLine();
-        stringBuilder.AppendLine("namespace Microsoft.Extensions.DependencyInjection;");
+        stringBuilder.AppendLine($"namespace {generatedNamespace};");
         stringBuilder.AppendLine();
-        stringBuilder.AppendLine("public static class AddGeneratedServicesServiceCollectionExtensions");
+        stringBuilder.AppendLine("public static class AddGeneratedServicesServiceCollectionExtension");
         stringBuilder.AppendLine("{");
         stringBuilder.AppendLine("    public static IServiceCollection AddGeneratedServices(this IServiceCollection services)");
         stringBuilder.AppendLine("    {");

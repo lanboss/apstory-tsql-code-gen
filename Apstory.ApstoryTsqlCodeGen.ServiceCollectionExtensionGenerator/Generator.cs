@@ -17,13 +17,13 @@ internal class Generator
     {
         var tables = await _tableRepository.GetDBTables();
 
-        var repos = AddGeneratedRepositories.Generate(_configuration.TopLevelNamespace, tables.Select(i => i.TABLE_NAME));
+        var repos = AddGeneratedRepositories.Generate(_configuration.TopLevelNamespace, _configuration.GeneratedNamespace, tables.Select(i => i.TABLE_NAME));
 
-        var services = AddGeneratedServices.Generate(_configuration.TopLevelNamespace, tables.Select(i => i.TABLE_NAME));
+        var services = AddGeneratedServices.Generate(_configuration.TopLevelNamespace, _configuration.GeneratedNamespace, tables.Select(i => i.TABLE_NAME));
 
         var ioTasks = new[] {
-            File.WriteAllTextAsync(Path.Combine(_configuration.OutputPath, "AddGeneratedRepositoriesServiceCollectionExtensions.cs"), repos, System.Text.Encoding.UTF8),
-            File.WriteAllTextAsync(Path.Combine(_configuration.OutputPath, "AddGeneratedServicesServiceCollectionExtensions.cs"), services, System.Text.Encoding.UTF8)
+            File.WriteAllTextAsync(Path.Combine(_configuration.OutputPath, "AddGeneratedRepositoriesServiceCollectionExtension.cs"), repos, System.Text.Encoding.UTF8),
+            File.WriteAllTextAsync(Path.Combine(_configuration.OutputPath, "AddGeneratedServicesServiceCollectionExtension.cs"), services, System.Text.Encoding.UTF8)
         };
 
         await Task.WhenAll(ioTasks);
