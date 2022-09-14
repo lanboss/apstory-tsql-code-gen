@@ -28,6 +28,7 @@ internal class AddGeneratedRepositories
 
         stringBuilder.AppendLine($"/* {version} */");
         stringBuilder.AppendLine();
+        stringBuilder.AppendLine($"using Microsoft.Extensions.DependencyInjection;");
         stringBuilder.AppendLine($"using {topLevelNamespace}.Dal.Interface;");
         stringBuilder.AppendLine($"using {topLevelNamespace}.Dal.Dapper;");
         stringBuilder.AppendLine();

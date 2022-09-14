@@ -30,6 +30,7 @@ internal class AddGeneratedServices
 
         stringBuilder.AppendLine($"/* {version} */");
         stringBuilder.AppendLine();
+        stringBuilder.AppendLine($"using Microsoft.Extensions.DependencyInjection;");
         stringBuilder.AppendLine($"using {topLevelNamespace}.Domain.Interface;");
         stringBuilder.AppendLine($"using {topLevelNamespace}.Domain;");
         stringBuilder.AppendLine();
