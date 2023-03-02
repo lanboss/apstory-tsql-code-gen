@@ -46,6 +46,7 @@ BEGIN
 		when 'geography' then 'Microsoft.SqlServer.Types.SqlGeography'
 		when 'udtt_Uniqueidentifiers' then 'List<Guid>'
 		when 'udtt_Ints' then 'List<int>'
+		when 'udtt_BigInts' then 'List<long>'
 		else 'UNKNOWN_' + type_name(user_type_id)
 	end ColumnType,	
 	parameter_id as ParamOrder

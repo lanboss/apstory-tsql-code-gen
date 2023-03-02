@@ -130,6 +130,7 @@ DEALLOCATE TableCol;
         SET @QueryToExec = @QueryToExec +  N'END' + CHAR(13) + CHAR(10)     
         SET @QueryToExec = @QueryToExec +  CHAR(13) + CHAR(10)
     END
+
     IF (@PrimaryKeyDataType = 'int')
 	BEGIN
 		--Gen Select Statement
@@ -140,6 +141,33 @@ DEALLOCATE TableCol;
         SET @QueryToExec = @QueryToExec +  N'-- ===================================================================' + CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10)     
         SET @QueryToExec = @QueryToExec +  N'CREATE OR ALTER PROCEDURE [' + @Schema + '].[zgen_' + @TableName  + '_GetBy' + @PRIMARY_KEY + 's]' + CHAR(13) + CHAR(10);
         SET @QueryToExec = @QueryToExec +  N'  (@Ids udtt_Ints READONLY' + IIF(@ISACTIVE_SEL = 1,', @IsActive bit=NULL','') + ')' + CHAR(13) + CHAR(10);
+        SET @QueryToExec = @QueryToExec +  N'AS' + CHAR(13) + CHAR(10) 
+        SET @QueryToExec = @QueryToExec +  N'BEGIN' + CHAR(13) + CHAR(10)
+    	SET @QueryToExec = @QueryToExec +  @GetTransactionScope;   
+        
+    	IF @ISACTIVE_SEL = 1
+        BEGIN
+    		SET @QueryToExec = @QueryToExec +  N'  IF @IsActive IS NULL' + CHAR(13) + CHAR(10) 
+    		SET @QueryToExec = @QueryToExec +  N'    SELECT * FROM [' + @Schema + '].[' + @TableName + '] WHERE [' + @PRIMARY_KEY + '] IN (Select Id FROM @Ids);' + CHAR(13) + CHAR(10) 
+    		SET @QueryToExec = @QueryToExec +  N'  ELSE' + CHAR(13) + CHAR(10)
+    		SET @QueryToExec = @QueryToExec +  N'    SELECT * FROM [' + @Schema + '].[' + @TableName + '] WHERE [' + @PRIMARY_KEY + '] IN (Select Id FROM @Ids) AND IsActive = @IsActive;' + CHAR(13) + CHAR(10) 
+    	END
+    	ELSE
+    		SET @QueryToExec = @QueryToExec +  N'    SELECT * FROM [' + @Schema + '].[' + @TableName + '] WHERE [' + @PRIMARY_KEY + '] IN (Select Id FROM @Ids);' + CHAR(13) + CHAR(10) 
+        SET @QueryToExec = @QueryToExec +  N'END' + CHAR(13) + CHAR(10)     
+        SET @QueryToExec = @QueryToExec +  CHAR(13) + CHAR(10)
+	END
+
+    IF (@PrimaryKeyDataType = 'bigint')
+	BEGIN
+		--Gen Select Statement
+        SET @QueryToExec = N'/****** Object:  StoredProcedure [' + @Schema + '].[zgen_' + @TableName + '_GetBy' + @PRIMARY_KEY + 's] ******/' + CHAR(13) + CHAR(10) 
+        SET @QueryToExec = @QueryToExec +  @LEGEND;
+        
+        SET @QueryToExec = @QueryToExec +  N'-- Description    : Select By Id ' + @TableName + CHAR(13) + CHAR(10) 
+        SET @QueryToExec = @QueryToExec +  N'-- ===================================================================' + CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10)     
+        SET @QueryToExec = @QueryToExec +  N'CREATE OR ALTER PROCEDURE [' + @Schema + '].[zgen_' + @TableName  + '_GetBy' + @PRIMARY_KEY + 's]' + CHAR(13) + CHAR(10);
+        SET @QueryToExec = @QueryToExec +  N'  (@Ids udtt_BigInts READONLY' + IIF(@ISACTIVE_SEL = 1,', @IsActive bit=NULL','') + ')' + CHAR(13) + CHAR(10);
         SET @QueryToExec = @QueryToExec +  N'AS' + CHAR(13) + CHAR(10) 
         SET @QueryToExec = @QueryToExec +  N'BEGIN' + CHAR(13) + CHAR(10)
     	SET @QueryToExec = @QueryToExec +  @GetTransactionScope;   
