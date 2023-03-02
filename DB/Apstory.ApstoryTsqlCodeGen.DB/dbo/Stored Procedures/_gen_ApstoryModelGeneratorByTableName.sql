@@ -149,9 +149,9 @@ BEGIN
 		where object_id = object_id(@Schema + '.' + @TableName)
 		UNION -- ENUMS
 			select 
-			replace(replace(col.name, ' ', '_'), 'Id', '') AS ColumnName,
+			replace((CASE WHEN RIGHT(col.name, 2) = 'Id' THEN LEFT(col.name, LEN(col.name)-2) ELSE col.name END), ' ', '_') AS ColumnName,
 			100+column_id AS ColumnId,
-			COALESCE(tab.[name], replace(replace(col.name, ' ', '_'), 'Id', '')) ColumnType,
+			COALESCE(tab.[name], replace((CASE WHEN RIGHT(col.name, 2) = 'Id' THEN LEFT(col.name, LEN(col.name)-2) ELSE col.name END), ' ', '_')) AS ColumnType,
 			'' NullableSign
 		from sys.columns col
 		inner join sys.types typ on	col.system_type_id = typ.system_type_id AND col.user_type_id = typ.user_type_id
@@ -161,9 +161,9 @@ BEGIN
 		AND column_id <> 1 AND col.name like '%Id' AND typ.name = 'tinyint'
 		UNION
 			select 
-			replace(replace(col.name, ' ', '_'), 'Id', '') AS ColumnName,
+			replace((CASE WHEN RIGHT(col.name, 2) = 'Id' THEN LEFT(col.name, LEN(col.name)-2) ELSE col.name END), ' ', '_') AS ColumnName,
 			200+column_id AS ColumnId,
-			COALESCE(tab.[name], replace(replace(col.name, ' ', '_'), 'Id', '')) ColumnType,
+			COALESCE(tab.[name], replace((CASE WHEN RIGHT(col.name, 2) = 'Id' THEN LEFT(col.name, LEN(col.name)-2) ELSE col.name END), ' ', '_')) AS ColumnType,
 			'' NullableSign
 		from sys.columns col
 		inner join sys.types typ on 		col.system_type_id = typ.system_type_id AND col.user_type_id = typ.user_type_id
