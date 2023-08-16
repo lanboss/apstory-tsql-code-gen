@@ -46,6 +46,11 @@ return await rootCommand.InvokeAsync(args);
 
 async Task<int> CodeGenerator(string output, string topLevelNamespace, string generatedNamespace, string connectionString, string schema)
 {
+    Console.WriteLine($"Output : {output}");
+    Console.WriteLine($"TopLevelNamespace : {topLevelNamespace}");
+    Console.WriteLine($"GeneratedNamespace: {generatedNamespace}");
+    Console.WriteLine($"Schema: {schema}");
+
     var config = new Configuration(output, topLevelNamespace, generatedNamespace, connectionString, schema);
     var dbRepository = new CachedSqlTablesRepository(config.ConnectionString);
 

@@ -15,11 +15,12 @@ internal class Generator
 
     public async Task Run()
     {
-        var tables = await _tableRepository.GetDBTables();
+        var tables = await _tableRepository.GetDBTables(_configuration.Schema);
 
-        var repos = AddGeneratedRepositories.Generate(_configuration.TopLevelNamespace, _configuration.GeneratedNamespace, tables.Select(i => i.TABLE_NAME));
 
-        var services = AddGeneratedServices.Generate(_configuration.TopLevelNamespace, _configuration.GeneratedNamespace, tables.Select(i => i.TABLE_NAME));
+        var repos = AddGeneratedRepositories.Generate(_configuration.TopLevelNamespace, _configuration.GeneratedNamespace, _configuration.Schema, tables.Select(i => i.TABLE_NAME));
+
+        var services = AddGeneratedServices.Generate(_configuration.TopLevelNamespace, _configuration.GeneratedNamespace, _configuration.Schema, tables.Select(i => i.TABLE_NAME));
 
         var ioTasks = new[] {
             File.WriteAllTextAsync(Path.Combine(_configuration.OutputPath, "AddGeneratedRepositoriesServiceCollectionExtension.cs"), repos, System.Text.Encoding.UTF8),
