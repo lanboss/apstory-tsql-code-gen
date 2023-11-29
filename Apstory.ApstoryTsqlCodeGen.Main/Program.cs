@@ -21,25 +21,25 @@ namespace Apstory.Common.Tsql.Main
             CommandLineApplication commandLineApplication = new CommandLineApplication(throwOnUnexpectedArg: false);
 
             CommandOption classNamespace = commandLineApplication.Option(
-              "-n |--classNamespace <ClassNamespace>", "Class namespace", CommandOptionType.SingleValue);
-
+              "--classNamespace <c>", "Class namespace", CommandOptionType.SingleValue);
+            //<test1>
             CommandOption conString = commandLineApplication.Option(
-              "-c |--constring <ConnectionString>", "Database connection string", CommandOptionType.MultipleValue);
-
+              "--constring <con>", "Database connection string", CommandOptionType.MultipleValue);
+            //Server=.\\sqlexpress08;[UserID]=sa;password=chcontrol;Database=EAIDB
             CommandOption convertLongs = commandLineApplication.Option(
-              "-cl |--ConvertLongs <true/false>", "Convert longs to strings", CommandOptionType.SingleValue);
-
+              "--ConvertLongs <change>", "Convert longs to strings", CommandOptionType.SingleValue);
+            //true
             CommandOption includeForeignKeys = commandLineApplication.Option(
-              "-i |--IncludeForeignKeys <true/false>", "Include foreign object mapping methods, true or false", CommandOptionType.SingleValue);
-
+              "--IncludeForeignKeys <foreign>", "Include foreign object mapping methods, true or false", CommandOptionType.SingleValue);
+            //true
             CommandOption genPathStringList = commandLineApplication.Option(
-              "-gl |--GenPathList <GenPathList>", "Add a list of paths you want to be Generated spearated by commas in a string  i.e. 'domain,model,dalDapper,interfaceDomain,interfaceDal'", CommandOptionType.MultipleValue);
-
+              "--GenPathList <domain>", "Add a list of paths you want to be Generated spearated by commas in a string  i.e. 'domain,model,dalDapper,interfaceDomain,interfaceDal'", CommandOptionType.MultipleValue);
+            //domain,model,dalDapper,interfaceDomain,interfaceDal
             CommandOption genPathNamespaceStringList = commandLineApplication.Option(
-              "-gnl |--GenPathNamespaceList <GenPathNamespaceList>", "Add a list of paths you want to be Generated spearated by commas in a string i.e. 'domain,model,dalDapper,interfaceDomain,interfaceDal'", CommandOptionType.MultipleValue);
-
+              "--GenPathNamespaceList <domain>", "Add a list of paths you want to be Generated spearated by commas in a string i.e. 'domain,model,dalDapper,interfaceDomain,interfaceDal'", CommandOptionType.MultipleValue);
+            //domain,model,dalDapper,interfaceDomain,interfaceDal
             CommandOption schemaString = commandLineApplication.Option(
-              "-schema |--schemaString <SchemaString>", "Schema (Defaults to 'dbo')", CommandOptionType.MultipleValue);
+              "--schemaString <s>", "Schema (Defaults to 'dbo')", CommandOptionType.MultipleValue);
 
             commandLineApplication.HelpOption("-? | -h | --help");
             commandLineApplication.OnExecute(() =>
@@ -80,6 +80,9 @@ namespace Apstory.Common.Tsql.Main
 
                 return 0;
             });
+            if ( args.Length==0)
+                args = new[] { "--constring:Server=.\\sqlexpress;User ID=sa;password=x;Database=ApstoryDB", "--classNamespace:test1" };
+            //               args = new[] { "--constring:Server=.\\sqlexpress;User ID=sa;password=x;Database=test1", "--classNamespace:test1" };
             commandLineApplication.Execute(args);
         }
 

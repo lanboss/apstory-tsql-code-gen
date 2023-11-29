@@ -73,7 +73,7 @@ namespace Apstory.ApstoryTsqlCodeGen.DapperGenerator
                 LogOutputLine();
                 LogOutput(sb.ToString());
                 LogOutputLine();
-                string fileName = table.TABLE_NAME + "Repository" + (addSchemaPath ? "." + schema.ToUpper() : string.Empty) + ".Gen.cs";
+                string fileName = table.TABLE_NAME.Replace("*", "_") + "Repository" + (addSchemaPath ? "." + schema.ToUpper() : string.Empty) + ".Gen.cs";
                 string filePath;
                 
                 if (_GenPath.Length > 0)

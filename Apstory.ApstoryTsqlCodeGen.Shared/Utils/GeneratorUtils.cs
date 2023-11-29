@@ -8,6 +8,8 @@ namespace Apstory.ApstoryTsqlCodeGen.Shared.Utils
     {
         public static void WriteToFile(string filePath, string contents)
         {
+            string directoryPath = Path.GetDirectoryName(filePath);
+            Directory.CreateDirectory(directoryPath);
             File.WriteAllText(filePath, contents);
         }
 

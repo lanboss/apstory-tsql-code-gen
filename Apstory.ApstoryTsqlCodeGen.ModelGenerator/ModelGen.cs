@@ -67,7 +67,7 @@ namespace Apstory.ApstoryTsqlCodeGen.ModelGenerator
                 LogOutputLine();
                 bool addSchemaPath = (schema != "dbo");
 
-                string fileName = table.TABLE_NAME + (addSchemaPath ? "." + schema.ToUpper() : string.Empty) + ".Gen.cs";
+                string fileName = table.TABLE_NAME.Replace("*", "_") + (addSchemaPath ? "." + schema.ToUpper() : string.Empty) + ".Gen.cs";
                 string filePath;
 
                 if (_GenPath.Length > 0)

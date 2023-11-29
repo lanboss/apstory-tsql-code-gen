@@ -86,7 +86,7 @@ namespace Apstory.ApstoryTsqlCodeGen.InterfaceGenerator
                 LogOutputLine();
                 LogOutput(sb.ToString());
                 LogOutputLine();
-                string fileName = "I" + table.TABLE_NAME + type + (addSchemaPath ? "." + schema.ToUpper() : "") + ".Gen.cs";
+                string fileName = "I" + table.TABLE_NAME.Replace("*","_") + type + (addSchemaPath ? "." + schema.ToUpper() : "") + ".Gen.cs";
                 string filePath;
                 
                 if (_GenPath.Length > 0)

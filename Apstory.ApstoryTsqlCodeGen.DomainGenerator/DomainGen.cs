@@ -87,7 +87,7 @@ namespace Apstory.ApstoryTsqlCodeGen.DomainGenerator
                 LogOutputLine();
                 LogOutput(sb.ToString());
                 LogOutputLine();
-                string fileName = table.TABLE_NAME + "Service" + (addSchemaPath ? "." + schema.ToUpper() : string.Empty) + ".Gen.cs";
+                string fileName = table.TABLE_NAME.Replace("*", "_") + "Service" + (addSchemaPath ? "." + schema.ToUpper() : string.Empty) + ".Gen.cs";
                 string filePath;
                 if (_GenPath.Length > 0)
                     filePath = Path.Join( path, (addSchemaPath ? schema.ToUpper() : string.Empty), _GenPath.Replace(".", ""), fileName);
